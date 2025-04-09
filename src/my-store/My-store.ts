@@ -41,10 +41,17 @@ const counterSlice = createSlice({
     ochirish: (state, { payload }) => {
       state.todos = state.todos.filter((i) => i.id !== payload);
     },
+
+    update: (state, { payload }) => {
+      const item = state.todos.find((t) => t.id === payload.id);
+      if (item) {
+         item.name = payload.name;
+      }
+    },
   },
 });
 
-export const { add, minus, asligaQaytarish, ozgartir, addTodo , ochirish} =
+export const { add, minus, asligaQaytarish, ozgartir, addTodo, ochirish, update } =
   counterSlice.actions;
 
 export const store = configureStore({
