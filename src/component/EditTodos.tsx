@@ -1,7 +1,7 @@
 import { Button, Drawer, Form, Input } from "antd";
-import { TodoType } from "../App";
 import { useDispatch } from "react-redux";
-import { update } from "../my-store/My-store";
+import { update } from "../my-store/CounterSlice";
+import { TodoType } from "../my-store/types";
 
 function EditTodos({
   onCloce,
@@ -19,26 +19,28 @@ function EditTodos({
       }}
       title="Todo ni o'zgartirish"
     >
-      <Form
-        onFinish={(values) => {
-          dispatch(
-            update({
-              id: todo?.id,
-              ...values,
-            })
-          );
-          onCloce();
-        }}
-        initialValues={todo}
-        layout="vertical"
-      >
-        <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-          <Input placeholder="Yangi todo matnini kiriting..." />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary">O'zgartirish</Button>
-        </Form.Item>
-      </Form>
+      {todo && (
+        <Form
+          onFinish={(values) => {
+            dispatch(
+              update({
+                id: todo?.id,
+                ...values,
+              })
+            );
+            onCloce();
+          }}
+          initialValues={todo}
+          layout="vertical"
+        >
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Input placeholder="Yangi todo matnini kiriting..." />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary">O'zgartirish</Button>
+          </Form.Item>
+        </Form>
+      )}
     </Drawer>
   );
 }

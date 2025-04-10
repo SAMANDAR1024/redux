@@ -1,18 +1,12 @@
-import {
-  DeleteOutlined,
-  EditOutlined
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import EditTodos from "./component/EditTodos";
-import { addTodo, ochirish, RootState } from "./my-store/My-store";
+import { RootState, TodoType } from "./my-store/types";
+import { addTodo, ochirish } from "./my-store/CounterSlice";
 
-export type TodoType = {
-  id: number;
-  name: string;
-};
 
 function App() {
   const [input, setInput] = useState("");
@@ -22,19 +16,25 @@ function App() {
   // const ism = useSelector((state: RootState) => state.counter.ism);
   // const familya = useSelector((state: RootState) => state.counter.familya);
   // const value = useSelector((state: RootState) => state.counter.value);
-  const todo = useSelector((state: RootState) => state.counter.todos);
+  const todos = useSelector((state: RootState) => state.counter.todos) ;
+  const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useDispatch();
   const ochir = (id: number) => {
     dispatch(ochirish(id));
   };
-  const dispatch = useDispatch();
 
-  const FilterTodo = todo.filter((item) => {
-    return item.name.toLowerCase().includes(search.toLowerCase().trim());
-  })
+  const FilterTodo = todos.filter((item) => {
+    return item.name?.toLowerCase().includes((search || "").toLowerCase().trim());
+  });
+  console.log(FilterTodo);
+
+  
+  
   return (
     <>
       <div className="flex flex-col gap-2 bg-white text-black p-5 rounded-xl ">
         <h1 className="text-3xl font-bold mb-5">TODO LIST</h1>
+        {token}
         <EditTodos
           onCloce={() => setSelectedTodo(undefined)}
           todo={selectedTodo}
@@ -130,6 +130,7 @@ function App() {
                   <div className="flex gap-1 items-center">
                     <Button
                       onClick={() => {
+                        setSearch("")
                         setSelectedTodo(item);
                       }}
                       type="primary"

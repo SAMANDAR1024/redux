@@ -1,62 +1,11 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-
-const counterSlice = createSlice({
-  name: "counter",
-  initialState: {
-    value: 1,
-    ism: "Samandar",
-    familya: "Zafarov",
-    todos: [
-      {
-        id: 1,
-        name: "Lyuboy",
-      },
-    ],
-  },
-  reducers: {
-    add: (state) => {
-      state.value = state.value + 10;
-    },
-    minus: (state) => {
-      state.value = state.value - 10;
-    },
-
-    asligaQaytarish: (state) => {
-      state.value = 0;
-    },
-
-    ozgartir: (state, { payload }) => {
-      state.value = payload;
-    },
-
-    addTodo: (state, { payload }) => {
-      state.todos = [
-        {
-          name: payload,
-          id: Math.floor(Math.random() * 100),
-        },
-        ...state.todos,
-      ];
-    },
-    ochirish: (state, { payload }) => {
-      state.todos = state.todos.filter((i) => i.id !== payload);
-    },
-
-    update: (state, { payload }) => {
-      const item = state.todos.find((t) => t.id === payload.id);
-      if (item) {
-         item.name = payload.name;
-      }
-    },
-  },
-});
-
-export const { add, minus, asligaQaytarish, ozgartir, addTodo, ochirish, update } =
-  counterSlice.actions;
+import { configureStore } from "@reduxjs/toolkit";
+import { counterSlice } from "./CounterSlice";
+import { AuthSlice } from "./Auth.slice";
 
 export const store = configureStore({
-  reducer: { counter: counterSlice.reducer },
+  reducer: { counter: counterSlice.reducer, auth: AuthSlice.reducer },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+
+
+
